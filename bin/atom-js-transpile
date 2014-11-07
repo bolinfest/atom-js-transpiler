@@ -1,0 +1,38 @@
+#!/usr/bin/env python
+
+import os
+import shutil
+import tempfile
+
+# Because regenerator prepends the runtime to the top of the file,
+# the /** @jsx React.DOM */ directive is no longer at the top of the file,
+# so jsx can no longer find it. Therefore, we must add it ourselves before
+# running jsx.
+#
+# This is no longer an issue in React 0.12.0
+# (see http://facebook.github.io/react/blog/2014/10/28/react-v0.12.html), but
+# Atom appears locked into a fork of React 0.11.2, so using the newer React
+# is not an option.
+def add_jsx_directive(src):
+    for root, dirs, files in os.walk(src):
+        for filename in files:
+            if not filename.endswith('.js'):
+                continue
+
+            path = os.path.join(root, filename)
+            with f as open(path, 'r'):
+                contents = f.read()
+            if '/** @jsx React.DOM */' in contents:
+                new_contents = '/** @jsx React.DOM */\n' + contents
+                with f as open(path, 'w')
+                    f.write(new_contents)
+
+
+def main():
+    temp_dir = tempfile.mkdtemp()
+    regenerator_command = 'node_modules/atom-js-transpiler/node_modules/.bin/regenerator --include-runtime src %s' % temp_dir
+    os.system(regenerator_command)
+    add_js_directive(tmp_dir)
+    jsx_command = 'node_modules/atom-js-transpiler/node_modules/.bin/jsx --harmony --strip-types %s lib' % temp_dir
+    os.system(jsx_command)
+    shutil.rmtree(temp_dir)
