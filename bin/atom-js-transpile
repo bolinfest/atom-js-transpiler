@@ -20,11 +20,11 @@ def add_jsx_directive(src):
                 continue
 
             path = os.path.join(root, filename)
-            with f as open(path, 'r'):
+            with open(path, 'r') as f:
                 contents = f.read()
             if '/** @jsx React.DOM */' in contents:
                 new_contents = '/** @jsx React.DOM */\n' + contents
-                with f as open(path, 'w'):
+                with open(path, 'w') as f:
                     f.write(new_contents)
 
 
