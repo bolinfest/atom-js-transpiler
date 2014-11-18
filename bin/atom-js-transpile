@@ -27,12 +27,18 @@ def add_jsx_directive(src):
                 with open(path, 'w') as f:
                     f.write(new_contents)
 
-
-def main():
+def transpile(src, dst):
     temp_dir = tempfile.mkdtemp()
-    regenerator_command = 'node_modules/atom-js-transpiler/node_modules/.bin/regenerator --include-runtime src %s' % temp_dir
+    regenerator_command = 'node_modules/atom-js-transpiler/node_modules/.bin/regenerator --include-runtime %s %s' % (src, temp_dir)
     os.system(regenerator_command)
-    add_js_directive(tmp_dir)
-    jsx_command = 'node_modules/atom-js-transpiler/node_modules/.bin/jsx --harmony --strip-types %s lib' % temp_dir
+    add_jsx_directive(temp_dir)
+    jsx_command = 'node_modules/atom-js-transpiler/node_modules/.bin/jsx --harmony --strip-types %s %s' % (temp_dir, dst)
     os.system(jsx_command)
     shutil.rmtree(temp_dir)
+
+def main():
+    transpile('src', 'lib')
+    transpile('test', 'spec')
+
+if __name__ == '__main__':
+    main()
