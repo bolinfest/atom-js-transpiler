@@ -5,7 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "react-tools": "=0.11.2",
-    "regenerator": "^0.7.2"
+    "regenerator": "^0.8.0"
   },
   "bin": "bin/atom-js-transpile",
   "scripts": {
